@@ -1,13 +1,13 @@
 // src/middleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/lib/utils/jwt";
+import { verifyTokenEdge } from "@/lib/utils/jwt-edge";
 
 // Routes that require authentication
 const PROTECTED_PATHS = ["/dashboard", "/rooms", "/devices", "/schedules"];
 // Routes only for unauthenticated users
 const AUTH_PATHS = ["/login", "/register"];
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("token")?.value;
 
@@ -17,7 +17,7 @@ export function middleware(req: NextRequest) {
   // Redirect authenticated users away from auth pages
   if (isAuthPage && token) {
     try {
-      verifyToken(token);
+      await verifyTokenEdge(token);
       return NextResponse.redirect(new URL("/dashboard", req.url));
     } catch {
       // Token invalid — let them through to login
@@ -33,7 +33,7 @@ export function middleware(req: NextRequest) {
 
   if (isProtected && token) {
     try {
-      verifyToken(token);
+      await verifyTokenEdge(token);
     } catch {
       // Expired or invalid — clear cookie and redirect
       const response = NextResponse.redirect(new URL("/login", req.url));

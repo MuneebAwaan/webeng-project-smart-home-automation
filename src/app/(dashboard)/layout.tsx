@@ -10,12 +10,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (isLoading || isAuthenticated) return;
+
+    const hasStoredSession =
+      typeof window !== "undefined" &&
+      localStorage.getItem("token") &&
+      localStorage.getItem("user");
+
+    if (!hasStoredSession) {
       router.push("/login");
     }
   }, [isAuthenticated, isLoading, router]);
 
-  if (isLoading) {
+  const hasStoredSession =
+    typeof window !== "undefined" &&
+    localStorage.getItem("token") &&
+    localStorage.getItem("user");
+
+  if (isLoading || (!isAuthenticated && hasStoredSession)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f]">
         <div className="flex flex-col items-center gap-4">
