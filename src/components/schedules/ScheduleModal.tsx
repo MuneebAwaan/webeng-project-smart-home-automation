@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X, Power, PowerOff, Save, Plus, CalendarClock } from "lucide-react";
+import { X, Power, PowerOff, Save, CalendarClock } from "lucide-react";
 import { createScheduleSchema, CreateScheduleInput } from "@/lib/validations/schemas";
 import { Schedule, Device } from "@/types";
 import { DEVICE_TYPE_LABELS, DAY_LABELS } from "@/lib/utils/helpers";
