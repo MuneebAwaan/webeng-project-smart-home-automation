@@ -67,42 +67,44 @@ export const toggleDeviceSchema = z.object({
 });
 
 // ── Schedule Schemas ──────────────────────────────────────────────────────────
-export const createScheduleSchema = z
-  .object({
-    deviceId: z.string().min(1, "Device is required"),
-    action: z.enum(["on", "off"], {
-      errorMap: () => ({ message: "Action must be either on or off" }),
-    }),
-    startTime: z
-      .string()
-      .regex(/^\d{2}:\d{2}$/, "Start time must be in HH:MM format"),
-    endTime: z
-      .string()
-      .regex(/^\d{2}:\d{2}$/, "End time must be in HH:MM format")
-      .optional(),
-    frequency: z.enum(["once", "daily", "weekly"], {
-      errorMap: () => ({ message: "Please select a valid frequency" }),
-    }),
-    daysOfWeek: z
-      .array(z.number().min(0).max(6))
-      .optional()
-      .default([]),
-    isActive: z.boolean().optional().default(true),
-  })
-  .refine(
-    (data) => {
-      if (data.frequency === "weekly") {
-        return data.daysOfWeek && data.daysOfWeek.length > 0;
-      }
-      return true;
-    },
-    {
-      message: "At least one day must be selected for weekly schedules",
-      path: ["daysOfWeek"],
-    }
-  );
+const scheduleBaseSchema = z.object({
+  deviceId: z.string().min(1, "Device is required"),
+  action: z.enum(["on", "off"], {
+    errorMap: () => ({ message: "Action must be either on or off" }),
+  }),
+  startTime: z
+    .string()
+    .regex(/^\d{2}:\d{2}$/, "Start time must be in HH:MM format"),
+  endTime: z
+    .string()
+    .regex(/^\d{2}:\d{2}$/, "End time must be in HH:MM format")
+    .optional(),
+  frequency: z.enum(["once", "daily", "weekly"], {
+    errorMap: () => ({ message: "Please select a valid frequency" }),
+  }),
+  daysOfWeek: z
+    .array(z.number().min(0).max(6))
+    .optional()
+    .default([]),
+  isActive: z.boolean().optional().default(true),
+});
 
-export const updateScheduleSchema = createScheduleSchema.partial();
+const weeklyDaysRefine = (data: { frequency?: string; daysOfWeek?: number[] }) => {
+  if (data.frequency === "weekly") {
+    return data.daysOfWeek && data.daysOfWeek.length > 0;
+  }
+  return true;
+};
+
+export const createScheduleSchema = scheduleBaseSchema.refine(weeklyDaysRefine, {
+  message: "At least one day must be selected for weekly schedules",
+  path: ["daysOfWeek"],
+});
+
+export const updateScheduleSchema = scheduleBaseSchema.partial().refine(weeklyDaysRefine, {
+  message: "At least one day must be selected for weekly schedules",
+  path: ["daysOfWeek"],
+});
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
