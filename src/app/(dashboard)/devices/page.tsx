@@ -27,7 +27,6 @@ function DevicesContent() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingDevice, setEditingDevice] = useState<Device | null>(null);
   const [deletingDevice, setDeletingDevice] = useState<Device | null>(null);
-  const [schedulingDevice, setSchedulingDevice] = useState<Device | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const fetchData = useCallback(async () => {
@@ -213,7 +212,7 @@ function DevicesContent() {
               onToggle={handleToggle}
               onEdit={(d) => { setEditingDevice(d); setModalOpen(true); }}
               onDelete={(d) => setDeletingDevice(d)}
-              onSchedule={(d) => { setSchedulingDevice(d); router.push(`/schedules?deviceId=${d._id}`); }}
+              onSchedule={(d) => router.push(`/schedules?deviceId=${d._id}`)}
             />
           ))}
         </div>

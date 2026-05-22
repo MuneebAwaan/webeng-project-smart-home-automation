@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { schedulesApi } from "@/lib/utils/apiClient";
 import { Schedule } from "@/types";
 import { CreateScheduleInput } from "@/lib/validations/schemas";
-import { DEVICE_TYPE_ICONS, DEVICE_TYPE_LABELS, DAY_LABELS, FREQUENCY_LABELS, formatTime } from "@/lib/utils/helpers";
+import { DEVICE_TYPE_ICONS, DAY_LABELS, FREQUENCY_LABELS, formatTime } from "@/lib/utils/helpers";
 import ScheduleModal from "@/components/schedules/ScheduleModal";
 import DeleteConfirm from "@/components/ui/DeleteConfirm";
 
@@ -173,7 +173,7 @@ function SchedulesContent() {
                       <span className="text-xs text-muted-foreground">→ {formatTime(schedule.endTime)}</span>
                     )}
                     <span className="text-xs text-muted-foreground">{FREQUENCY_LABELS[schedule.frequency]}</span>
-                    {schedule.frequency === "weekly" && schedule.daysOfWeek?.length > 0 && (
+                    {schedule.frequency === "weekly" && schedule.daysOfWeek && schedule.daysOfWeek.length > 0 && (
                       <span className="text-xs text-muted-foreground">
                         {schedule.daysOfWeek.map((d) => DAY_LABELS[d]).join(", ")}
                       </span>
