@@ -1,4 +1,4 @@
-# 🤖 AI Prompts Log — NestIQ Smart Home Automation
+#  AI Prompts Log: NestIQ Smart Home Automation
 
 This file documents the prompts used during development, the AI responses received, and what was manually adjusted. This is part of the Web Engineering project submission requirements.
 
