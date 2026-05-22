@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
       id: device._id.toString(),
       action: device.isOn ? "Turned On" : "Turned Off",
       deviceName: device.name,
+      deviceType: device.type,
       roomName: (device.roomId as unknown as { name: string })?.name ?? "Unknown",
       timestamp: device.updatedAt.toISOString(),
       type: device.isOn ? "on" : "off",

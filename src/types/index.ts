@@ -87,6 +87,7 @@ export interface ActivityLog {
   id: string;
   action: string;
   deviceName: string;
+  deviceType?: DeviceType;
   roomName: string;
   timestamp: string;
   type: "on" | "off" | "schedule" | "add" | "delete";

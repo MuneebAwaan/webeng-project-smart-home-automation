@@ -24,7 +24,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await login(data.email, data.password);
-      toast.success("Welcome back! 🏠");
+      toast.success("Welcome back");
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
@@ -36,7 +36,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="glass-card p-8 glow-ring">
+    <div className="surface-card p-8 glow-ring">
       {/* Header */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-violet-600/20 border border-violet-500/30 mb-4">
@@ -125,7 +125,7 @@ export default function LoginPage() {
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link href="/register" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
-          Create one →
+          Create one
         </Link>
       </p>
     </div>
