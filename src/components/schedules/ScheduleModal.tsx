@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { createScheduleSchema, CreateScheduleInput } from "@/lib/validations/schemas";
 import { Schedule, Device } from "@/types";
-import { DEVICE_TYPE_ICONS, DEVICE_TYPE_LABELS, DAY_LABELS } from "@/lib/utils/helpers";
+import { DEVICE_TYPE_ICONS, DAY_LABELS } from "@/lib/utils/helpers";
 import { devicesApi } from "@/lib/utils/apiClient";
 
 interface ScheduleModalProps {

@@ -20,7 +20,7 @@ declare global {
   var mongooseCache: MongooseCache | undefined;
 }
 
-let cached: MongooseCache = global.mongooseCache ?? { conn: null, promise: null };
+const cached: MongooseCache = global.mongooseCache ?? { conn: null, promise: null };
 
 if (!global.mongooseCache) {
   global.mongooseCache = cached;
@@ -37,10 +37,7 @@ async function connectDB(): Promise<typeof mongoose> {
       maxPoolSize: 10,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, options).then((mongoose) => {
-      console.log("✅ MongoDB connected successfully");
-      return mongoose;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI, options);
   }
 
   try {

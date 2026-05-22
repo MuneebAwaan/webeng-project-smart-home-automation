@@ -47,8 +47,9 @@ const UserSchema = new Schema<IUser>(
     timestamps: true,
     toJSON: {
       transform: function (_, ret) {
-        delete ret.password;
-        return ret;
+        const sanitized = { ...ret };
+        delete (sanitized as { password?: string }).password;
+        return sanitized;
       },
     },
   }
