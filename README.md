@@ -1,23 +1,23 @@
-# 🏠 NestIQ – Smart Home Automation System
+#  NestIQ – Smart Home Automation System
 
 A production-ready Smart Home Automation web application built for the Web Engineering university project. Manage rooms, control smart devices, and schedule automation — all from one secure, responsive interface.
 
 ---
 
-## 📸 Features at a Glance
+##  Features at a Glance
 
 | Feature | Description |
 |---|---|
-| 🔐 **Auth** | JWT-secured signup, login, logout with bcrypt password hashing |
-| 🏠 **Rooms** | Create, edit, delete rooms (Bedroom, Kitchen, Office, etc.) |
-| 💡 **Devices** | Add and control lights, fans, AC, heaters — toggle ON/OFF in real time |
-| ⏰ **Schedules** | Automate devices with once / daily / weekly recurring schedules |
-| 📊 **Dashboard** | Live stats — active devices, schedule count, recent activity |
-| 📱 **Responsive** | Fully mobile-friendly with a collapsible sidebar |
+|  **Auth** | JWT-secured signup, login, logout with bcrypt password hashing |
+|  **Rooms** | Create, edit, delete rooms (Bedroom, Kitchen, Office, etc.) |
+|  **Devices** | Add and control lights, fans, AC, heaters — toggle ON/OFF in real time |
+|  **Schedules** | Automate devices with once / daily / weekly recurring schedules |
+|  **Dashboard** | Live stats — active devices, schedule count, recent activity |
+|  **Responsive** | Fully mobile-friendly with a collapsible sidebar |
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 ### Frontend
 - **Next.js 15** (App Router)
@@ -111,13 +111,13 @@ webeng-project-smart-home-automation/
 
 ---
 
-## ⚙️ Environment Variables
+##  Environment Variables
 
 Create a `.env.local` file in the project root:
 
 ```env
-MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@cluster0.xxxxx.mongodb.net/smarthome?retryWrites=true&w=majority
-JWT_SECRET=your_super_secret_key_minimum_32_chars_long
+MONGODB_URI=mongodb+srv://smarthome_user:MyPass123@cluster0.0dfmknk.mongodb.net/?appName=Cluster0
+JWT_SECRET=MySecretKey2024SmartHomeProject
 JWT_EXPIRES_IN=7d
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NODE_ENV=development
@@ -127,7 +127,7 @@ NODE_ENV=development
 
 ---
 
-## 🚀 Local Development Setup
+##  Local Development Setup
 
 ### 1. Clone the repository
 
@@ -159,7 +159,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🧪 Running Tests
+##  Running Tests
 
 ### Unit tests (Jest)
 
@@ -183,7 +183,7 @@ npm run test:e2e:ui
 
 ---
 
-## 📦 Production Build
+##  Production Build
 
 ```bash
 npm run build   # Build for production
@@ -193,7 +193,7 @@ npm run lint    # Check for ESLint errors
 
 ---
 
-## ☁️ Deploying to Vercel
+##  Deploying to Vercel
 
 ### Option A – Vercel CLI
 
@@ -223,7 +223,7 @@ vercel --prod
 
 ---
 
-## 🌐 API Reference
+##  API Reference
 
 ### Auth
 
@@ -272,7 +272,7 @@ vercel --prod
 
 ---
 
-## 🗄️ Database Schemas
+##  Database Schemas
 
 ### User
 ```
@@ -303,9 +303,9 @@ Indexes: [userId, deviceId], [userId, isActive]
 
 ---
 
-## 📋 Live Demo
+##  Live Demo
 
-🔗 **Deployment URL:** _Add your Vercel deployment link here after deployment_
+🔗 **Deployment URL:** https://vercel.com/muneebawaan30-8288s-projects/webeng-project-smart-home-automation
 
 ---
 
