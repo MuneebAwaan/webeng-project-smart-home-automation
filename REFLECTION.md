@@ -1,15 +1,15 @@
-# 📝 Reflection Report — NestIQ Smart Home Automation
-## Web Engineering Project | AI-Assisted Development
+# Reflection Report: NestIQ Smart Home Automation
+## Web Engineering Project: AI-Assisted Development
 
 ---
 
-### Introduction (50 words)
+### Introduction 
 
 This report reflects on the development of NestIQ, a full-stack Smart Home Automation system built using Next.js 15, MongoDB, TypeScript, and Tailwind CSS. The project was developed with AI assistance, and this report honestly evaluates what that collaboration looked like in practice — the wins, the friction, and the lessons.
 
 ---
 
-### 1. How AI Assisted During Development (~150 words)
+### 1. How AI Assisted During Development 
 
 AI tools accelerated development significantly in several structured areas. Generating boilerplate — Mongoose schemas, Zod validation schemas, Next.js API route handlers — was by far the most useful application. Tasks that would normally take an hour were completed in minutes. The AI consistently produced well-structured TypeScript, remembered to include error handling, and suggested patterns (like the Mongoose connection cache for serverless) that I would not have discovered as quickly on my own.
 
@@ -19,7 +19,7 @@ For test writing, AI excelled at producing edge-case coverage I might have skipp
 
 ---
 
-### 2. Challenges Faced (~120 words)
+### 2. Challenges Faced 
 
 The biggest challenge was Next.js 15's architectural changes. The App Router requires `"use client"` at the top of every component that uses browser APIs, React hooks, or context. Several AI-generated components omitted this directive, causing cryptic server-component errors. I learned to check for this immediately.
 
@@ -29,7 +29,7 @@ Managing the Mongoose connection in serverless functions was another challenge. 
 
 ---
 
-### 3. Bugs Introduced by AI (~100 words)
+### 3. Bugs Introduced by AI 
 
 Several bugs were introduced that required manual correction:
 
@@ -40,8 +40,7 @@ Several bugs were introduced that required manual correction:
 
 ---
 
-### 4. Security Concerns Addressed (~100 words)
-
+### 4. Security Concerns Addressed 
 Security was taken seriously throughout the project:
 
 - Passwords are hashed with bcrypt using a cost factor of 12 before storing in MongoDB.
@@ -53,7 +52,7 @@ Security was taken seriously throughout the project:
 
 ---
 
-### 5. Testing Experience (~100 words)
+### 5. Testing Experience 
 
 Testing was approached on two levels. Unit tests with Jest covered Zod schemas (catching edge cases like the weekly-schedule day requirement), utility functions (time formatting, className merging), JWT signing and verification, and React components (StatCard rendering, DeleteConfirm behaviour). Writing these tests actually caught two real bugs: the midnight formatting issue and the JWT setup ordering problem.
 
@@ -61,7 +60,7 @@ The Playwright E2E tests verified the browser-level experience — form renderin
 
 ---
 
-### 6. Lessons Learned from AI-Assisted ("Vibe") Coding (~150 words)
+### 6. Lessons Learned from AI-Assisted ("Vibe") Coding 
 
 The biggest lesson is that AI-assisted development requires an engaged reviewer, not a passive copy-paster. The AI produced excellent first drafts, but every output needed reading, understanding, and often adjusting. Blindly accepting AI output would have shipped code with subtle bugs — some of which would only surface in production (like the serverless connection caching issue).
 
@@ -71,6 +70,6 @@ The workflow that worked best was: describe the requirement clearly → review t
 
 ---
 
-### Conclusion (50 words)
+### Conclusion
 
 NestIQ demonstrates that AI-assisted development can produce a production-quality full-stack application significantly faster than solo development. However, the quality of the output directly depends on the developer's ability to evaluate, debug, and improve AI-generated code. Technical knowledge remains essential — AI amplifies it rather than replacing it.
