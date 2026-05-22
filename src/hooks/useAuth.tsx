@@ -51,8 +51,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken(jwt);
     setUser(userData);
 
-    router.push("/dashboard");
-  }, [router]);
+    // Full navigation so middleware reads the auth cookie and auth state stays in sync
+    window.location.assign("/dashboard");
+  }, []);
 
   const register = useCallback(
     async (name: string, email: string, password: string, confirmPassword: string) => {
@@ -64,9 +65,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setToken(jwt);
       setUser(userData);
 
-      router.push("/dashboard");
+      window.location.assign("/dashboard");
     },
-    [router]
+    []
   );
 
   const logout = useCallback(async () => {
