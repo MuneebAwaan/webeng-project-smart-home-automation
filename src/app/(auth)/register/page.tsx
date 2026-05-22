@@ -25,7 +25,7 @@ export default function RegisterPage() {
     setIsLoading(true);
     try {
       await authRegister(data.name, data.email, data.password, data.confirmPassword);
-      toast.success("Account created! Welcome to NestIQ 🏡");
+      toast.success("Account created. Welcome to NestIQ");
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
@@ -37,7 +37,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="glass-card p-8 glow-ring">
+    <div className="surface-card p-8 glow-ring">
       {/* Header */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-violet-600/20 border border-violet-500/30 mb-4">
@@ -145,7 +145,7 @@ export default function RegisterPage() {
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link href="/login" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
-          Sign in →
+          Sign in
         </Link>
       </p>
     </div>

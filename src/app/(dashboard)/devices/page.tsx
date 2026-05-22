@@ -2,7 +2,9 @@
 // src/app/(dashboard)/devices/page.tsx
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Plus, Search, Cpu, Filter } from "lucide-react";
+import { Plus, Search, Cpu, Filter, Lightbulb } from "lucide-react";
+import PageHeader from "@/components/ui/PageHeader";
+import EmptyState from "@/components/ui/EmptyState";
 import toast from "react-hot-toast";
 import { devicesApi, roomsApi } from "@/lib/utils/apiClient";
 import { Device, Room } from "@/types";
@@ -64,7 +66,7 @@ function DevicesContent() {
     try {
       const res = await devicesApi.create(data);
       setDevices((prev) => [res.data.data, ...prev]);
-      toast.success(`💡 "${data.name}" added!`);
+      toast.success(`"${data.name}" added`);
       setModalOpen(false);
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error || "Failed to add device";
@@ -80,7 +82,7 @@ function DevicesContent() {
     try {
       const res = await devicesApi.update(editingDevice._id, data);
       setDevices((prev) => prev.map((d) => (d._id === editingDevice._id ? res.data.data : d)));
-      toast.success("✅ Device updated!");
+      toast.success("Device updated");
       setEditingDevice(null);
       setModalOpen(false);
     } catch (err: unknown) {
@@ -98,7 +100,7 @@ function DevicesContent() {
     );
     try {
       await devicesApi.toggle(device._id);
-      toast.success(device.isOn ? `🔴 ${device.name} off` : `🟢 ${device.name} on`);
+      toast.success(device.isOn ? `${device.name} turned off` : `${device.name} turned on`);
     } catch {
       // Revert on failure
       setDevices((prev) =>
@@ -113,7 +115,7 @@ function DevicesContent() {
     try {
       await devicesApi.delete(deletingDevice._id);
       setDevices((prev) => prev.filter((d) => d._id !== deletingDevice._id));
-      toast.success("🗑️ Device deleted");
+      toast.success("Device deleted");
       setDeletingDevice(null);
     } catch {
       toast.error("Failed to delete device");
@@ -124,23 +126,16 @@ function DevicesContent() {
 
   return (
     <div className="space-y-6 page-fade-in">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <span>💡</span> Devices
-          </h1>
-          <p className="text-muted-foreground text-sm mt-0.5">
-            {filtered.length} device{filtered.length !== 1 ? "s" : ""} · {activeCount} active
-          </p>
-        </div>
-        <button
-          onClick={() => { setEditingDevice(null); setModalOpen(true); }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-all shadow-lg shadow-violet-900/30"
-        >
-          <Plus className="w-4 h-4" /> Add Device
-        </button>
-      </div>
+      <PageHeader
+        title="Devices"
+        description={`${filtered.length} device${filtered.length !== 1 ? "s" : ""} · ${activeCount} active`}
+        icon={Lightbulb}
+        action={
+          <button onClick={() => { setEditingDevice(null); setModalOpen(true); }} className="btn-primary">
+            <Plus className="w-4 h-4" /> Add Device
+          </button>
+        }
+      />
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -150,9 +145,7 @@ function DevicesContent() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search devices..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-white/20
-              focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/30 focus:outline-none
-              text-white placeholder-slate-500 text-sm transition-all"
+            className="input-field pl-10"
           />
         </div>
         <div className="relative">
@@ -184,21 +177,18 @@ function DevicesContent() {
 
       {/* Empty state */}
       {!isLoading && filtered.length === 0 && (
-        <div className="glass-card p-16 text-center">
-          <Cpu className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-          <p className="text-white font-semibold mb-1">{search ? "No devices found" : "No devices yet"}</p>
-          <p className="text-muted-foreground text-sm mb-6">
-            {search ? "Try a different search" : "Add your first smart device to begin controlling your home"}
-          </p>
-          {!search && (
-            <button
-              onClick={() => setModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-600/20 border border-violet-500/30 text-violet-300 hover:bg-violet-600/30 text-sm font-medium transition-all"
-            >
-              <Plus className="w-4 h-4" /> Add your first device
-            </button>
-          )}
-        </div>
+        <EmptyState
+          icon={search ? Search : Cpu}
+          title={search ? "No devices found" : "No devices yet"}
+          description={search ? "Try a different search term" : "Add your first smart device to begin controlling your home"}
+          action={
+            !search ? (
+              <button onClick={() => setModalOpen(true)} className="btn-primary">
+                <Plus className="w-4 h-4" /> Add your first device
+              </button>
+            ) : undefined
+          }
+        />
       )}
 
       {/* Device grid */}

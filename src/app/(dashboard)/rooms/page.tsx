@@ -1,14 +1,17 @@
 "use client";
-// src/app/(dashboard)/rooms/page.tsx
 import { useEffect, useState, useCallback } from "react";
-import { Plus, Search, Pencil, Trash2, Cpu } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, Cpu, DoorOpen } from "lucide-react";
 import toast from "react-hot-toast";
 import { roomsApi } from "@/lib/utils/apiClient";
 import { Room } from "@/types";
 import { CreateRoomInput } from "@/lib/validations/schemas";
-import { ROOM_TYPE_LABELS, ROOM_TYPE_ICONS, formatDate } from "@/lib/utils/helpers";
+import { ROOM_TYPE_LABELS, formatDate } from "@/lib/utils/helpers";
+import { RoomIcon } from "@/lib/utils/icons";
 import RoomModal from "@/components/rooms/RoomModal";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import PageHeader from "@/components/ui/PageHeader";
+import EmptyState from "@/components/ui/EmptyState";
+import IconBadge from "@/components/ui/IconBadge";
 
 export default function RoomsPage() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -38,7 +41,7 @@ export default function RoomsPage() {
     try {
       const res = await roomsApi.create(data);
       setRooms((prev) => [res.data.data, ...prev]);
-      toast.success("Room added successfully 🏠");
+      toast.success("Room added successfully");
       setModalOpen(false);
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error || "Failed to create room";
@@ -54,7 +57,7 @@ export default function RoomsPage() {
     try {
       const res = await roomsApi.update(editingRoom._id, data);
       setRooms((prev) => prev.map((r) => (r._id === editingRoom._id ? { ...r, ...res.data.data } : r)));
-      toast.success("Room updated successfully ✅");
+      toast.success("Room updated successfully");
       setEditingRoom(null);
       setModalOpen(false);
     } catch (err: unknown) {
@@ -71,7 +74,7 @@ export default function RoomsPage() {
     try {
       await roomsApi.delete(deletingRoom._id);
       setRooms((prev) => prev.filter((r) => r._id !== deletingRoom._id));
-      toast.success("Room deleted 🗑️");
+      toast.success("Room deleted");
       setDeletingRoom(null);
     } catch {
       toast.error("Failed to delete room");
@@ -88,18 +91,16 @@ export default function RoomsPage() {
 
   return (
     <div className="space-y-6 page-fade-in">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Rooms 🚪</h1>
-          <p className="text-muted-foreground text-sm mt-0.5">{rooms.length} room{rooms.length !== 1 ? "s" : ""} in your home</p>
-        </div>
-        <button
-          onClick={() => { setEditingRoom(null); setModalOpen(true); }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-violet-900/30"
-        >
-          <Plus className="w-4 h-4" /> Add Room
-        </button>
-      </div>
+      <PageHeader
+        title="Rooms"
+        description={`${rooms.length} room${rooms.length !== 1 ? "s" : ""} in your home`}
+        icon={DoorOpen}
+        action={
+          <button onClick={() => { setEditingRoom(null); setModalOpen(true); }} className="btn-primary">
+            <Plus className="w-4 h-4" /> Add Room
+          </button>
+        }
+      />
 
       <div className="relative">
         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -107,7 +108,7 @@ export default function RoomsPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search rooms..."
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all"
+          className="input-field pl-10"
         />
       </div>
 
@@ -120,18 +121,22 @@ export default function RoomsPage() {
       )}
 
       {!isLoading && filtered.length === 0 && (
-        <div className="glass-card p-14 text-center">
-          <p className="text-5xl mb-4">{searchQuery ? "🔍" : "🏠"}</p>
-          <h3 className="font-semibold text-white text-lg mb-2">{searchQuery ? "No rooms found" : "No rooms yet"}</h3>
-          <p className="text-muted-foreground text-sm mb-6">
-            {searchQuery ? `No rooms match "${searchQuery}"` : "Add your first room to start managing your smart home."}
-          </p>
-          {!searchQuery && (
-            <button onClick={() => setModalOpen(true)} className="px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-all">
-              + Add your first room
-            </button>
-          )}
-        </div>
+        <EmptyState
+          icon={searchQuery ? Search : DoorOpen}
+          title={searchQuery ? "No rooms found" : "No rooms yet"}
+          description={
+            searchQuery
+              ? `No rooms match "${searchQuery}"`
+              : "Add your first room to start managing your smart home."
+          }
+          action={
+            !searchQuery ? (
+              <button onClick={() => setModalOpen(true)} className="btn-primary">
+                <Plus className="w-4 h-4" /> Add your first room
+              </button>
+            ) : undefined
+          }
+        />
       )}
 
       {!isLoading && filtered.length > 0 && (
@@ -139,24 +144,24 @@ export default function RoomsPage() {
           {filtered.map((room, i) => (
             <div
               key={room._id}
-              className="stagger-item glass-card p-5 hover:border-violet-500/30 transition-all duration-200 hover:-translate-y-0.5 group"
+              className="stagger-item surface-card p-5 hover:border-violet-500/25 transition-all duration-200 hover:-translate-y-0.5 group"
               style={{ animationDelay: `${i * 60}ms` }}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-violet-600/15 border border-violet-500/20 flex items-center justify-center text-xl">
-                    {ROOM_TYPE_ICONS[room.type]}
-                  </div>
+                  <IconBadge>
+                    <RoomIcon type={room.type} className="w-5 h-5" />
+                  </IconBadge>
                   <div>
                     <h3 className="font-semibold text-white text-base leading-tight">{room.name}</h3>
-                    <p className="text-xs text-muted-foreground">{ROOM_TYPE_LABELS[room.type]}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{ROOM_TYPE_LABELS[room.type]}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button onClick={() => { setEditingRoom(room); setModalOpen(true); }} className="p-1.5 rounded-lg hover:bg-white/10 text-muted-foreground hover:text-white transition-all">
+                  <button onClick={() => { setEditingRoom(room); setModalOpen(true); }} className="p-1.5 rounded-lg hover:bg-white/10 text-muted-foreground hover:text-white transition-all" aria-label="Edit room">
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
-                  <button onClick={() => setDeletingRoom(room)} className="p-1.5 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-all">
+                  <button onClick={() => setDeletingRoom(room)} className="p-1.5 rounded-lg hover:bg-red-500/10 text-muted-foreground hover:text-red-400 transition-all" aria-label="Delete room">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -173,7 +178,7 @@ export default function RoomsPage() {
                   </div>
                 )}
               </div>
-              <div className="mt-4 pt-4 border-t border-white/5">
+              <div className="mt-4 pt-4 border-t border-white/[0.06]">
                 <p className="text-xs text-muted-foreground">Added {formatDate(room.createdAt)}</p>
               </div>
             </div>

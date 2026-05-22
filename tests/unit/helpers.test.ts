@@ -5,12 +5,11 @@ import {
   formatRelativeTime,
   ROOM_TYPE_LABELS,
   DEVICE_TYPE_LABELS,
-  DEVICE_TYPE_ICONS,
-  ROOM_TYPE_ICONS,
   DAY_LABELS,
   FREQUENCY_LABELS,
   cn,
 } from "@/lib/utils/helpers";
+import { DEVICE_TYPE_ICON_MAP, ROOM_TYPE_ICON_MAP } from "@/lib/utils/icons";
 
 describe("formatTime", () => {
   it("converts 07:00 to 7:00 AM", () => {
@@ -86,10 +85,10 @@ describe("Label and icon mappings", () => {
     });
   });
 
-  it("has an icon for every room type", () => {
+  it("has an icon component for every room type", () => {
     const roomTypes = ["bedroom", "kitchen", "living_room", "office", "bathroom", "garage", "basement", "other"];
     roomTypes.forEach((type) => {
-      expect(ROOM_TYPE_ICONS[type as keyof typeof ROOM_TYPE_ICONS]).toBeDefined();
+      expect(ROOM_TYPE_ICON_MAP[type as keyof typeof ROOM_TYPE_ICON_MAP]).toBeDefined();
     });
   });
 
@@ -100,12 +99,10 @@ describe("Label and icon mappings", () => {
     });
   });
 
-  it("has an emoji icon for every device type", () => {
+  it("has an icon component for every device type", () => {
     const deviceTypes = ["light", "fan", "ac", "heater", "chiller", "tv", "camera", "lock", "thermostat", "speaker", "other"];
     deviceTypes.forEach((type) => {
-      const icon = DEVICE_TYPE_ICONS[type as keyof typeof DEVICE_TYPE_ICONS];
-      expect(typeof icon).toBe("string");
-      expect(icon.length).toBeGreaterThan(0);
+      expect(DEVICE_TYPE_ICON_MAP[type as keyof typeof DEVICE_TYPE_ICON_MAP]).toBeDefined();
     });
   });
 

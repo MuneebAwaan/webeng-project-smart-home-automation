@@ -18,17 +18,6 @@ export const ROOM_TYPE_LABELS: Record<RoomType, string> = {
   other: "Other",
 };
 
-export const ROOM_TYPE_ICONS: Record<RoomType, string> = {
-  bedroom: "🛏️",
-  kitchen: "🍳",
-  living_room: "🛋️",
-  office: "💼",
-  bathroom: "🚿",
-  garage: "🏠",
-  basement: "⬇️",
-  other: "🏡",
-};
-
 export const DEVICE_TYPE_LABELS: Record<DeviceType, string> = {
   light: "Light",
   fan: "Fan",
@@ -41,20 +30,6 @@ export const DEVICE_TYPE_LABELS: Record<DeviceType, string> = {
   thermostat: "Thermostat",
   speaker: "Speaker",
   other: "Other",
-};
-
-export const DEVICE_TYPE_ICONS: Record<DeviceType, string> = {
-  light: "💡",
-  fan: "🌀",
-  ac: "❄️",
-  heater: "🔥",
-  chiller: "🧊",
-  tv: "📺",
-  camera: "📷",
-  lock: "🔐",
-  thermostat: "🌡️",
-  speaker: "🔊",
-  other: "🔌",
 };
 
 export const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
